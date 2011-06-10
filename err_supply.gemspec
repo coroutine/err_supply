@@ -10,10 +10,11 @@ Gem::Specification.new do |s|
   s.email       = ["gems@coroutine.com"]
   s.homepage    = "http://github.com/coroutine/err_supply"
   s.summary     = %q{Simple, beautiful error messages for Rails.}
-  s.description = %q{Simple, beautiful error messages for Rails. Err_supply unpacks and rekeys the standard Rails error hash to make applying error messages to your views dead simple. Even better, because the library cures Rails's brain-damaged way of recording errors from nested resources/attributes, err_supply works with both simple and complex forms.}
+  s.description = %q{Simple, beautiful error messages for Rails. Err_supply unpacks and rekeys the standard Rails error hash to make applying error messages to your views dead simple. Even better, because the library cures Rails' brain-damaged way of recording errors from nested resources/attributes, err_supply works with both simple and complex forms.}
 
+  s.add_dependency "rails", "~> 3.0.7"
+  
   s.add_development_dependency "rspec", "~> 2.1.0"
-  s.add_development_dependency "rails", "~> 3.0.7"
   
   s.rubyforge_project = "err_supply"
 
