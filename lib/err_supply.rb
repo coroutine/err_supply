@@ -1,0 +1,3 @@
+module ErrSupply
+  # Your code goes here...
+end
