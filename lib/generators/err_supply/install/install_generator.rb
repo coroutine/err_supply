@@ -1,5 +1,3 @@
-require "rails/generators"
-
 module ErrSupply
   module Generators
     
