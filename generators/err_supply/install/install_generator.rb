@@ -1,5 +1,8 @@
+require "rails/generators"
+
 module ErrSupply
   module Generators
+    
     class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path('../templates', __FILE__)
 
@@ -8,5 +11,6 @@ module ErrSupply
         copy_file "err_supply.js",                "public/javascripts/err_supply.js"
       end
     end
+    
   end
 end
