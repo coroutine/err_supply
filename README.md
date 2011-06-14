@@ -6,7 +6,6 @@ The helper unpacks and rekeys the standard Rails error hash to make applying err
 
 
 
-***
 ## What Is This?
 
 Err Supply is designed to make the default Rails error reporting structure more useful for complex
@@ -68,7 +67,6 @@ both values? Or, do they both have problems?
 
 
 
-***
 ## Our Solution
 
 Err Supply converts the Rails error hash from a slightly ambiguous object graph to a flat, unambiguous
@@ -82,7 +80,6 @@ form submissions to be run through a single piece of code.
 
 
 
-***
 ## Installation
 
 Install me from RubyGems.org by adding a gem dependency to your Gemfile.  Bundler does 
@@ -100,7 +97,6 @@ in the err_supply error hash.
 
 
 
-***
 ## Basic Usage
 
 The main `err_supply` helper returns an escaped javascript invocation that triggers a custom
@@ -115,7 +111,7 @@ are named in the standard rails way and that all error attribute keys match the 
 keys exactly.
     
 
-### Whitelists/Blacklists
+### 1. Whitelists/Blacklists
 
 Attributes can be whitelisted or blacklisted using the standard `:only` and `:except` notation.
 
@@ -124,7 +120,7 @@ required.  They typically only make sense for minor actions against models with 
 many attributes.
 
 
-### Changing Labels
+### 2. Changing Labels
 
 Say a User class has an attribute `:born_on` to store the user's date of birth.  In your form
 builder you declare the textbox normally like so:
@@ -146,7 +142,7 @@ This will attach the following presence of error to the :born_on field:
     Date of birth can't be blank.
 
 
-### Changing Keys
+### 3. Changing Keys
 
 Say a User class belongs to an Organization class.  In your form, you declare a selector 
 for assigning the organization.  The selector is named `:ogranization_id`.
@@ -162,7 +158,7 @@ You can solve this problem by changing the key for the attribute like so:
     </script>
     
 
-### Nested Attributes
+### 4. Nested Attributes
 
 You can apply the same principles to nested attributes by nesting the instructions. To return
 to our father/son example, you can change the name labels for both entities using the following
@@ -178,7 +174,7 @@ notation:
     </script>
 
 
-### Combining Instructions (aka Go Crazy)
+### 5. Combining Instructions (aka Go Crazy)
 
 Attribute instructions are provided as hashes so that both `key` and `label` changes can be 
 declared on the same attribute.
@@ -187,7 +183,8 @@ Honestly, such instructions are rare in the real world, but error handling can g
 so the library supports it.  
         
         
-***
+        
+        
 ## Advanced Usage
 
 There are a handful of scenarios that fall outside the area of basic usage worth discussing.
@@ -223,7 +220,7 @@ using the custom jQuery event `err_supply:unmatched`.
 
 
 
-***
+
 ## Prerequisites
 
 * <b>Ruby on Rails:</b> <http://rubyonrails.org>
@@ -231,7 +228,7 @@ using the custom jQuery event `err_supply:unmatched`.
 
 
 
-***
+
 ## Helpful Links
 
 * <b>Repository:</b>  <http://github.com/coroutine/err_supply>
@@ -241,7 +238,6 @@ using the custom jQuery event `err_supply:unmatched`.
 
 
 
-***
 ## Gemroll
 
 Other gems by Coroutine include:
@@ -256,7 +252,7 @@ Other gems by Coroutine include:
 
 
 
-***
+
 ## License
 
 Copyright (c) 2011 [Coroutine LLC](http://coroutine.com).
