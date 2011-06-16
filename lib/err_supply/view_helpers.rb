@@ -5,7 +5,7 @@ module ErrSupply
     # triggers a custom event on the associated form element.
     #
     def err_supply(obj, options={})
-      id = obj.new_record? ? "new_#{dom_id(obj)}" : "edit_#{dom_id(obj)}"
+      id = obj.new_record? ? dom_id(obj) : dom_id(obj, :edit)
       h  = err_supply_hash(obj, options.merge({ :prefix => obj.class.name.underscore }))
 
       "$('##{id}').trigger('err_supply:loaded', #{h.to_json});".html_safe
