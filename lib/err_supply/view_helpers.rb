@@ -58,7 +58,7 @@ module ErrSupply
 
         unless h.has_key?(id)
           h[id] = {
-            "label"    => attr.to_s.underscore.humanize,
+            "label"    => obj.classify.human_attribute_name(attr),
             "messages" => []
           }
         end
