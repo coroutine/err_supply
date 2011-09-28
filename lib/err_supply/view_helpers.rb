@@ -71,13 +71,16 @@ module ErrSupply
       #---------------------------------------------
       # apply options to children
       #---------------------------------------------
-
+      
+      # get keys
       assoc_names = errors.keys.map { |k| k.to_s.split(".") }.select { |a| a.many? }.map { |a| a[0] }.compact.uniq
 
+      # if child has errors or is invalid (i.e., we prefer explicitly declared errrors),
+      # call function recursively and merge results
       assoc_names.each do |assoc_name|
         c_options = options[assoc_name.to_sym] || {}
         obj.send("#{assoc_name}").each_with_index do |child, index|
-          unless child.valid?
+          if !child.errors.empty? or child.invalid?
             c_prefix = "#{prefix}_#{assoc_name}_attributes_#{index}"
             c_hash   = err_supply_hash(child, c_options.merge({ :prefix => c_prefix }))
 
