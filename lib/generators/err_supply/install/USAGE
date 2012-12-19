@@ -1,3 +1,0 @@
-Description:
-  Copies two javascript files: (1) the default jquery error handler for err_supply, 
-  and (2) the jquery plugin qtip, which the default handler uses to make tooltips.
