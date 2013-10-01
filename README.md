@@ -92,7 +92,7 @@ If you want the default javascript handlers, run the install generator from the 
 	$ rails g err_supply:install
 
 This will copy two javascripts files to your project: the latest stable version of the
-jQuery plugin qtip and a simple $.live() function to modify the view using the information
+jQuery plugin qtip and a simple $.on() function to modify the view using the information
 in the err_supply error hash.
 
 
