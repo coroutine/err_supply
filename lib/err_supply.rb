@@ -1,4 +1,5 @@
 require 'err_supply/version'
+require 'err_supply/controller_helpers'
 require 'err_supply/view_helpers'
 
 module ErrSupply
@@ -9,8 +10,15 @@ module ErrSupply
     #-------------------------------------------------------
     initializer "err_supply.start" do |app|
       
-      # add method to views
-      ActionView::Base.module_eval { include ErrSupply::ViewHelpers }  if defined? ActionView
+      # extend views
+      ActiveSupport.on_load :action_view do 
+        include ErrSupply::ViewHelpers
+      end
+      
+      # extend controllers
+      ActiveSupport.on_load :action_controller do
+        include ErrSupply::ControllerHelpers
+      end
       
     end
     
