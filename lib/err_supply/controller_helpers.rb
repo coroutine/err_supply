@@ -43,7 +43,7 @@ module ErrSupply
       # apply errors that match our list (slightly inefficient, but a touch easier to read)
       attrs.each do |attr|
         o  = options[attr.to_sym] || {}
-        id = [prefix, "#{(o[:key] || attr).to_s}"].join('_')
+        id = [prefix, "#{(o[:key] || attr).to_s}"].reject(&:blank?).join('_')
 
         unless h.has_key?(id)
           h[id] = {
@@ -70,7 +70,7 @@ module ErrSupply
         c_options = options[assoc_name.to_sym] || {}
         obj.send("#{assoc_name}").each_with_index do |child, index|
           if !child.errors.empty? or child.invalid?
-            c_prefix = [prefix, "#{assoc_name}_attributes_#{index}"].join('_')
+            c_prefix = [prefix, "#{assoc_name}_attributes_#{index}"].reject(&:blank?).join('_')
             c_hash   = err_supply_hash(child, c_options.merge({ :prefix => c_prefix }))
 
             h.merge!(c_hash)
