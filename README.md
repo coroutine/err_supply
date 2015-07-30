@@ -1,9 +1,8 @@
 # err_supply
 
-Err Supply is a Rails 3 view helper that helps produce simple, beautiful error messages.
+Err Supply is a Rails view helper that produces simple, beautiful error messages.
 
 The helper unpacks and rekeys the standard Rails error hash to make applying error messages to your views dead simple. Even better, because the extension cures Rails' brain-damaged way of recording errors from nested resources/attributes,  it works with both simple and complex forms.
-
 
 
 ## What Is This?
@@ -15,46 +14,46 @@ interfaces.
 
 We started thinking about Err Supply when we worked on a project that required an AJAX form submission.
 
-For normal HTML submissions, we coded up a custom error handler in Rails to display the messages below the 
-form input. To replicate this for the AJAX submission, we realized we would have to convert the error hash 
-to JSON and then wire up a jQuery event handler to perform the same DOM manipulations Rails was performing 
-internally.  Obviously, we weren't super excited about having code in two places and in two languages to 
+For normal HTML submissions, we coded up a custom error handler in Rails to display the messages below the
+form input. To replicate this for the AJAX submission, we realized we would have to convert the error hash
+to JSON and then wire up a jQuery event handler to perform the same DOM manipulations Rails was performing
+internally.  Obviously, we weren't super excited about having code in two places and in two languages to
 provide the same business value.
 
-    
+
 ### Ambiguous error messages for nested attributes
 
-The problem was compounded a few months later when we worked on a different project that required an AJAX 
+The problem was compounded a few months later when we worked on a different project that required an AJAX
 form submission for a nested form.
 
-Here, even the workaround is problematic. Because Rails reports errors on nested attributes ambiguously, 
+Here, even the workaround is problematic. Because Rails reports errors on nested attributes ambiguously,
 there really wasn't any way to use a javascript workaround without first reconstituting the error hash
 itself.
 
-If you don't know what I mean by saying the error messages are ambiguous, here's an example. Say you have 
+If you don't know what I mean by saying the error messages are ambiguous, here's an example. Say you have
 these models defined:
 
     class Father < ActiveRecord::Base
       attr_accessible :name
       attr_accessible :age
-    
+
       has_many :sons
-    
+
       accepts_nested_attributes_for :sons, :allow_destroy => true
-    
+
       validates_presence_of :name, :age
     end
-  
+
     class Son < ActiveRecord::Base
       attr_accessible :name
       attr_accessible :age
-    
+
       belongs_to :father
-    
+
       validates_presence_of :name, :age
     end
-    
-If you pull up the nested edit form for a father with two sons and delete one son's name and the other 
+
+If you pull up the nested edit form for a father with two sons and delete one son's name and the other
 son's age, Rails will return the following error hash:
 
     {
@@ -62,7 +61,7 @@ son's age, Rails will return the following error hash:
       "sons.age": ["can't be blank"]
     }
 
-Umm, thanks, but which son is missing a name and which one is missing an age? Or is it the same son missing 
+Umm, thanks, but which son is missing a name and which one is missing an age? Or is it the same son missing
 both values? Or, do they both have problems?
 
 
@@ -82,18 +81,16 @@ form submissions to be run through a single piece of code.
 
 ## Installation
 
-Install me from RubyGems.org by adding a gem dependency to your Gemfile.  Bundler does 
+Install me from RubyGems.org by adding a gem dependency to your Gemfile.  Bundler does
 the rest.
 
-	gem "err_supply"
+	gem 'err_supply'
 
-If you want the default javascript handlers, run the install generator from the command line.
+Add the appropriate javascript file to the asset pipeline.  Err Supply comes with an adapter for
+Twitter Bootstrap enabled sites.  Those using other frameworks will need to write a separate adapter
+based on their framework's interface.
 
-	$ rails g err_supply:install
-
-This will copy two javascripts files to your project: the latest stable version of the
-jQuery plugin qtip and a simple $.on() function to modify the view using the information
-in the err_supply error hash.
+	#= require err_supply-bootstrap
 
 
 
@@ -109,14 +106,14 @@ event named `err_supply:loaded` and supplies the edited error hash as data.
 This will evaluate @father.errors and apply an errors to the form. It assumes all form inputs
 are named in the standard rails way and that all error attribute keys match the form input
 keys exactly.
-    
+
 
 ### 1. Whitelists/Blacklists
 
 Attributes can be whitelisted or blacklisted using the standard `:only` and `:except` notation.
 
 Because `err_supply` will ignore any unmatched attributes, such declarations are not strictly
-required.  They typically only make sense for minor actions against models with many, 
+required.  They typically only make sense for minor actions against models with many,
 many attributes.
 
 
@@ -126,11 +123,11 @@ Say a User class has an attribute `:born_on` to store the user's date of birth. 
 builder you declare the textbox normally like so:
 
     <%= f.text_field :born_on %>
-    
+
 A presence\_of error will be formatted as:
 
     Born on can't be blank.
-    
+
 To make this nicer, we can change the label for the attribute like this:
 
     <script type="text/javascript">
@@ -144,11 +141,11 @@ This will attach the following presence of error to the :born_on field:
 
 ### 3. Changing Keys
 
-Say a User class belongs to an Organization class.  In your form, you declare a selector 
+Say a User class belongs to an Organization class.  In your form, you declare a selector
 for assigning the organization.  The selector is named `:ogranization_id`.
 
 Depending on how your validations are written, you might very well get an error message for
-this form keyed to `:organization`.  Because your selector is keyed to `:organization_id`, 
+this form keyed to `:organization`.  Because your selector is keyed to `:organization_id`,
 the default javascript handler will consider this an unmatched attribute.
 
 You can solve this problem by changing the key for the attribute like so:
@@ -156,7 +153,7 @@ You can solve this problem by changing the key for the attribute like so:
     <script type="text/javascript">
       <%= err_supply @user, :organization => { :key => :organization_id } %>
     </script>
-    
+
 
 ### 4. Nested Attributes
 
@@ -165,7 +162,7 @@ to our father/son example, you can change the name labels for both entities usin
 notation:
 
     <script type="text/javascript">
-      <%= err_supply  @father, 
+      <%= err_supply  @father,
                       :name => { :label => "Father's name" },
                       :sons => {
                         :name => { :label => "Son's name" }
@@ -176,15 +173,15 @@ notation:
 
 ### 5. Combining Instructions (aka Go Crazy)
 
-Attribute instructions are provided as hashes so that both `key` and `label` changes can be 
+Attribute instructions are provided as hashes so that both `key` and `label` changes can be
 declared on the same attribute.
 
 Honestly, such instructions are rare in the real world, but error handling can get weird fast,
 so the library supports it.  
-        
-        
-        
-        
+
+
+
+
 ## Advanced Usage
 
 There are a handful of scenarios that fall outside the area of basic usage worth discussing.
@@ -202,12 +199,12 @@ As long as you do this before the `err_supply` call is made, everything will wor
 
 ### 2. Other Javascript Libraries
 
-If you don't use jQuery, you may want to override the `err_supply` helper to format the 
+If you don't use jQuery, you may want to override the `err_supply` helper to format the
 javascript invocation differently.
 
 The library is constructed so the main public method named `err_supply` is pretty dumb. Most
 of the real hash-altering magic occurs in a protected method called `err_supply_hash`. You can
-override the much simpler method without worrying about damaging the core hash interpretation 
+override the much simpler method without worrying about damaging the core hash interpretation
 functionality.
 
 See the `lib` directory for details.

@@ -1,0 +1,21 @@
+/*---------------------------------------------
+  err_supply styles
+-----------------------------------------------*/
+
+ul.err_supply {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.form-group .popover {
+  width: 325px;
+  background: $brand-danger;
+  color: #fff;
+}
+.form-group .popover.right .arrow:after {
+  border-right-color: $brand-danger;
+}
+.form-group .popover.left .arrow:after {
+  border-left-color: $brand-danger;
+}
