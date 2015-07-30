@@ -93,6 +93,13 @@ based on their framework's interface.
 	#= require err_supply-bootstrap
 
 
+Add the appropriate stylesheet file to the asset pipeline.  Err Supply comes with style classes for
+Twitter Bootstrap enabled sites.  Those using other frameworks will need to write a separate set of
+style classes based on their framework's interface.
+
+  @import 'err_supply-bootstrap';
+
+  
 
 ## Basic Usage
 
